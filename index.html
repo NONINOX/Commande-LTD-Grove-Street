@@ -236,8 +236,8 @@
         body: JSON.stringify({ content: messageContent })
     }).then(response => {
         if (response.ok) {
-            // Reset the form only if the submission is successful
-            document.getElementById('orderForm').reset();
+            // Redirect to confirmation page if submission is successful
+            window.location.href = 'confirmation.html';
         } else {
             console.error("Erreur lors de l'envoi du message à Discord : ", response);
         }
@@ -245,6 +245,7 @@
         console.error("Erreur lors de l'envoi du message à Discord : ", error);
     });
 });
+
 
     </script>
 </body>
