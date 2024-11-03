@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de Commande</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -211,58 +212,37 @@
         document.getElementById('orderForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    // Récupération des données du formulaire
+    // Collect form data
     const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => {
-        if (!data[key]) {
-            data[key] = value;
-        } else {
-            if (!Array.isArray(data[key])) {
-                data[key] = [data[key]];
-            }
-            data[key].push(value);
-        }
+    const data = {
+        type_article: formData.getAll('type_article[]'),
+        quantite: formData.getAll('quantite[]'),
+        nom_entreprise: formData.get('nom_entreprise'),
+        heure_commande: formData.get('heure_commande'),
+        heure_commande1: formData.get('heure_commande1')
+    };
+
+    // Generate message content for Discord
+    let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison : ${data.heure_commande} - ${data.heure_commande1}\n**Articles commandés :**\n`;
+    data.type_article.forEach((article, i) => {
+        messageContent += `- ${article} : ${data.quantite[i]}\n`;
     });
 
-    // Normaliser les données pour garantir que type_article et quantite sont des tableaux
-    if (typeof data['type_article[]'] === 'string') {
-        data['type_article[]'] = [data['type_article[]']];
-    }
-    if (typeof data['quantite[]'] === 'string') {
-        data['quantite[]'] = [data['quantite[]']];
-    }
-
-    // Récupération de l'heure souhaitée pour la livraison
-    const heureCommande = data['heure_commande'];
-    const heureCommande1 = data['heure_commande1'];
-
-    // Génération du message pour Discord
-    let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison souhaitée : ${heureCommande}-${heureCommande1}\n**Articles commandés :**\n`;
-    for (let i = 0; i < data['type_article[]'].length; i++) {
-        messageContent += `- ${data['type_article[]'][i]} : ${data['quantite[]'][i]}\n`;
-    }
-
-    // Envoi des données au webhook Discord
-    const webhookURL = "https://discord.com/api/webhooks/1302691211517104239/tH8Ixb5QouiSOv0s0igkEIGgbnETvoUkeKTmjDX6v_8x0eeg0W9l6QMGmLIuiMR2C04p"; // Remplace cette URL avec ton webhook Discord
+    // Send data to Discord webhook
+    const webhookURL = "https://discord.com/api/webhooks/1302691211517104239/tH8Ixb5QouiSOv0s0igkEIGgbnETvoUkeKTmjDX6v_8x0eeg0W9l6QMGmLIuiMR2C04p"; // Replace with your actual webhook URL
     fetch(webhookURL, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: messageContent })
     }).then(response => {
         if (response.ok) {
-            alert("Commande envoyée et résumée sur Discord avec succès !");
-            console.log("Message envoyé sur Discord.");
-
-            // Réinitialiser le formulaire après envoi
+            // Reset the form only if the submission is successful
             document.getElementById('orderForm').reset();
         } else {
-            alert("Échec de l'envoi de la commande sur Discord.");
             console.error("Erreur lors de l'envoi du message à Discord : ", response);
         }
     }).catch(error => {
         console.error("Erreur lors de l'envoi du message à Discord : ", error);
-        alert("Erreur de connexion au webhook Discord.");
     });
 });
 
