@@ -43,7 +43,7 @@
 </head>
 <body>
 
-    <h1>LTD GROOVE STREET COMMANDE</h1>
+    <h1>LTD GROVE STREET | COMMANDE</h1>
     <form id="orderForm">
         <label for="nom_entreprise">Nom de l'entreprise :</label>
         <select id="nom_entreprise" name="nom_entreprise" required>
@@ -69,7 +69,7 @@
                     <option value="">--Sélectionnez--</option>
                     <option value="Bagel">Bagel</option>
                     <option value="Bar de chocolat">Bar de chocolat</option>
-                    <option value="caramel">caramel</option>
+                    <option value="caramel">Caramel</option>
                     <option value="Colle">Colle</option>
                     <option value="Coquille à tacos">Coquille à tacos</option>
                     <option value="Crème fraîche">Crème fraîche</option>
@@ -107,7 +107,74 @@
                     <option value="Lumière violette">Lumière violette</option>
                     <option value="Outil">Outil</option>
                     <option value="Perceuse">Perceuse</option>
-                     <option value="boutille d'eau">boutille d'eau</option>
+                    <option value="Pile Verte">Pile verte</option>
+                    <option value="Pince pour plaque">Pince pour plaque</option>
+                    <option value="Porte document">Porte document</option>
+                    <option value="Porte feuilles">Porte feuilles</option>
+                    <option value="Pot de fleur">Pot de fleur</option>
+                    <option value="Skateboard">Skateboard</option>
+                    <option value="Spray pour tag">Spray pour tag</option>
+                    <option value="Table de travail">Table de travail</option>
+                    <option value="Ticket à grater">Ticket à grater</option>
+                    <option value="trousseau de clé">trousseau de clé</option>
+                    <option value="Ver de terre">Ver de terre</option>
+                    <option value="Ver de terre pour poisson">Ver de terre pour poisson</option>
+                </select>
+                
+                <label for="quantite_0">Quantité :</label>
+                <input type="number" id="quantite_0" name="quantite[]" required min="1">
+            </div>
+        </div>
+
+        <button type="button" onclick="addArticle()">Ajouter un autre article</button>
+       
+        <!-- Champ pour l'heure souhaitée pour la commande -->
+        <label for="heure_commande">Heure souhaitée pour la commande :</label>
+        <input type="time" id="heure_commande" name="heure_commande" required>
+        <input type="time" id="heure_commande1" name="heure_commande1" required>
+        
+        <input type="submit" value="Commander">
+    </form>
+
+    <script>
+        let articleCount = 1;
+
+        function addArticle() {
+            const articlesDiv = document.getElementById('articles');
+            const newArticle = document.createElement('div');
+            newArticle.classList.add('article');
+            newArticle.innerHTML = `
+                <label for="type_article_${articleCount}">Type d'article :</label>
+                <select id="type_article_${articleCount}" name="type_article[]" required>
+                    <option value="">--Sélectionnez--</option>
+                    <option value="Bagel">Bagel</option>
+                    <option value="Bar de chocolat">Bar de chocolat</option>
+                    <option value="caramel">Caramel</option>
+                    <option value="Colle">Colle</option>
+                    <option value="Coquille à tacos">Coquille à tacos</option>
+                    <option value="Crème fraîche">Crème fraîche</option>
+                    <option value="Crème Glacée (cornet)">Crème Glacée (cornet)</option>
+                    <option value="Crème Glacée (pot)">Crème Glacée (pot)</option>
+                    <option value="Eau purifiée">Eau purifiée</option>
+                    <option value="Encre">Encre</option>
+                    <option value="Eponge">Eponge</option>
+                    <option value="Moutarde">Moutarde</option>
+                    <option value="Nouille">Nouille</option>
+                    <option value="Pain à burger">Pain à burger</option>
+                    <option value="Pain grillé">Pain grillé</option>
+                    <option value="Papier à rouler">Papier à rouler</option>
+                    <option value="Pâtes">Pâtes</option>
+                    <option value="Hérisson">Hérisson</option>
+                    <option value="Solvant">Solvant</option>
+                    <option value="Tortilla">Tortilla</option>
+                    <option value="Caouchouc">Caouchouc</option>
+                    <option value="Appat Grande qualité">Appat Grande qualité</option>
+                    <option value="Balle de Basket">Balle de basket</option>
+                    <option value="Balle de football">Balle de football</option>
+                    <option value="Batterie">Batterie</option>
+                    <option value="Batterie de Voiture">Batterie de Voiture</option>
+                    <option value="Bobine de cuivre">Bobine de cuivre</option>
+                    <option value="boutille d'eau">boutille d'eau</option>
                     <option value="Canne à pêche">Canne à pêche</option>
                     <option value="coupeurs">coupeurs</option>
                     <option value="croquettes">croquettes</option>
@@ -132,36 +199,7 @@
                     <option value="trousseau de clé">trousseau de clé</option>
                     <option value="Ver de terre">Ver de terre</option>
                     <option value="Ver de terre pour poisson">Ver de terre pour poisson</option>
-                    
-
                 </select>
-                
-                <label for="quantite_0">Quantité :</label>
-                <input type="number" id="quantite_0" name="quantite[]" required min="1">
-            </div>
-        </div>
-
-        <button type="button" onclick="addArticle()">Ajouter un autre article</button>
-        <input type="submit" value="Commander">
-    </form>
-
-    <script>
-        let articleCount = 1;
-
-        function addArticle() {
-            const articlesDiv = document.getElementById('articles');
-            const newArticle = document.createElement('div');
-            newArticle.classList.add('article');
-            newArticle.innerHTML = `
-                <label for="type_article_${articleCount}">Type d'article :</label>
-                <select id="type_article_${articleCount}" name="type_article[]" required>
-                    <option value="">--Sélectionnez--</option>
-                    <option value="Bagel">Bagel</option>
-                    <option value="Bar de chocolat">Bar de chocolat</option>
-                    <option value="caramel">Caramel</option>
-                    <option value="Colle">Colle</option>
-                </select>
-                
                 <label for="quantite_${articleCount}">Quantité :</label>
                 <input type="number" id="quantite_${articleCount}" name="quantite[]" required min="1">
             `;
@@ -186,8 +224,20 @@
                 }
             });
 
+            // Normaliser les données pour garantir que type_article et quantite sont des tableaux
+            if (typeof data['type_article[]'] === 'string') {
+                data['type_article[]'] = [data['type_article[]']];
+            }
+            if (typeof data['quantite[]'] === 'string') {
+                data['quantite[]'] = [data['quantite[]']];
+            }
+
+            // Récupération de l'heure souhaitée pour la livraison
+            const heureCommande = data['heure_commande'];
+            const heureCommande1 = data['heure_commande1'];
+
             // Génération du message pour Discord
-            let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\n\n**Articles commandés :**\n`;
+            let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison souhaitée : ${heureCommande}-${heureCommande1}\n**Articles commandés :**\n`;
             for (let i = 0; i < data['type_article[]'].length; i++) {
                 messageContent += `- ${data['type_article[]'][i]} : ${data['quantite[]'][i]}\n`;
             }
@@ -212,6 +262,5 @@
             });
         });
     </script>
-
 </body>
 </html>
