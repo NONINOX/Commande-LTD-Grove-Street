@@ -9,7 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #000000;
+            background-color: #fae7ce;
             border-radius: 5px;
             max-width: 500px;
         }
@@ -208,59 +209,63 @@
         }
 
         document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            // Récupération des données du formulaire
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => {
-                if (!data[key]) {
-                    data[key] = value;
-                } else {
-                    if (!Array.isArray(data[key])) {
-                        data[key] = [data[key]];
-                    }
-                    data[key].push(value);
-                }
-            });
-
-            // Normaliser les données pour garantir que type_article et quantite sont des tableaux
-            if (typeof data['type_article[]'] === 'string') {
-                data['type_article[]'] = [data['type_article[]']];
+    // Récupération des données du formulaire
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        if (!data[key]) {
+            data[key] = value;
+        } else {
+            if (!Array.isArray(data[key])) {
+                data[key] = [data[key]];
             }
-            if (typeof data['quantite[]'] === 'string') {
-                data['quantite[]'] = [data['quantite[]']];
-            }
+            data[key].push(value);
+        }
+    });
 
-            // Récupération de l'heure souhaitée pour la livraison
-            const heureCommande = data['heure_commande'];
-            const heureCommande1 = data['heure_commande1'];
+    // Normaliser les données pour garantir que type_article et quantite sont des tableaux
+    if (typeof data['type_article[]'] === 'string') {
+        data['type_article[]'] = [data['type_article[]']];
+    }
+    if (typeof data['quantite[]'] === 'string') {
+        data['quantite[]'] = [data['quantite[]']];
+    }
 
-            // Génération du message pour Discord
-            let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison souhaitée : ${heureCommande}-${heureCommande1}\n**Articles commandés :**\n`;
-            for (let i = 0; i < data['type_article[]'].length; i++) {
-                messageContent += `- ${data['type_article[]'][i]} : ${data['quantite[]'][i]}\n`;
-            }
+    // Récupération de l'heure souhaitée pour la livraison
+    const heureCommande = data['heure_commande'];
+    const heureCommande1 = data['heure_commande1'];
 
-            // Envoi des données au webhook Discord
-            const webhookURL = "https://discord.com/api/webhooks/1302691211517104239/tH8Ixb5QouiSOv0s0igkEIGgbnETvoUkeKTmjDX6v_8x0eeg0W9l6QMGmLIuiMR2C04p"; // Remplace cette URL avec ton webhook Discord
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: messageContent })
-            }).then(response => {
-                if (response.ok) {
-                    alert("Commande envoyée et résumée sur Discord avec succès !");
-                    console.log("Message envoyé sur Discord.");
-                } else {
-                    alert("Échec de l'envoi de la commande sur Discord.");
-                    console.error("Erreur lors de l'envoi du message à Discord : ", response);
-                }
-            }).catch(error => {
-                console.error("Erreur lors de l'envoi du message à Discord : ", error);
-                alert("Erreur de connexion au webhook Discord.");
-            });
-        });
+    // Génération du message pour Discord
+    let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison souhaitée : ${heureCommande}-${heureCommande1}\n**Articles commandés :**\n`;
+    for (let i = 0; i < data['type_article[]'].length; i++) {
+        messageContent += `- ${data['type_article[]'][i]} : ${data['quantite[]'][i]}\n`;
+    }
+
+    // Envoi des données au webhook Discord
+    const webhookURL = "https://discord.com/api/webhooks/1302691211517104239/tH8Ixb5QouiSOv0s0igkEIGgbnETvoUkeKTmjDX6v_8x0eeg0W9l6QMGmLIuiMR2C04p"; // Remplace cette URL avec ton webhook Discord
+    fetch(webhookURL, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: messageContent })
+    }).then(response => {
+        if (response.ok) {
+            alert("Commande envoyée et résumée sur Discord avec succès !");
+            console.log("Message envoyé sur Discord.");
+
+            // Réinitialiser le formulaire après envoi
+            document.getElementById('orderForm').reset();
+        } else {
+            alert("Échec de l'envoi de la commande sur Discord.");
+            console.error("Erreur lors de l'envoi du message à Discord : ", response);
+        }
+    }).catch(error => {
+        console.error("Erreur lors de l'envoi du message à Discord : ", error);
+        alert("Erreur de connexion au webhook Discord.");
+    });
+});
+
     </script>
 </body>
 </html>
