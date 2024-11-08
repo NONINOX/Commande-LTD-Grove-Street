@@ -172,6 +172,10 @@
             </div>
     
             <button type="button" onclick="addArticle()">Ajouter un autre article</button>
+
+             <!-- Champ pour la date de livraison -->
+             <label for="date_commande">Date de livraison :</label>
+             <input type="date" id="date_commande" name="date_commande" required>
            
             <!-- Champ pour l'heure souhaitée pour la commande -->
             <label for="heure_commande">Heure de livraison :</label>
@@ -261,12 +265,17 @@
             type_article: formData.getAll('type_article[]'),
             quantite: formData.getAll('quantite[]'),
             nom_entreprise: formData.get('nom_entreprise'),
+            date_commande: formData.get('date_commande'),
             heure_commande: formData.get('heure_commande'),
             heure_commande1: formData.get('heure_commande1')
         };
+
+        // Reformater la date en JJ/MM/AAAA
+        const dateLivraison = new Date(data.date_commande);
+        const formattedDate = `${String(dateLivraison.getDate()).padStart(2, '0')}/${String(dateLivraison.getMonth() + 1).padStart(2, '0')}/${dateLivraison.getFullYear()}`;
     
         // Generate message content for Discord
-        let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nHeure de livraison : ${data.heure_commande} - ${data.heure_commande1}\n**Articles commandés :**\n`;
+        let messageContent = `**Nouvelle commande reçue**\nEntreprise : ${data.nom_entreprise}\nDate de livraison : ${formattedDate}\nHeure de livraison : ${data.heure_commande} - ${data.heure_commande1}\n**Articles commandés :**\n`;
         data.type_article.forEach((article, i) => {
             messageContent += `- ${article} : ${data.quantite[i]}\n`;
         });
