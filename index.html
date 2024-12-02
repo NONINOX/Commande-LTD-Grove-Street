@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | LTD Grove Street</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url(fond_ltd.png); /* Remplace par le chemin réel de ton image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #0000008a;  /*#fae7ce*/
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: white;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Connexion</h1>
+        <form id="loginForm">
+            <label for="entrepriseId">Nom de l'entreprise :</label>
+            <input type="text" id="entrepriseId" name="entrepriseId" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Se connecter</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const entrepriseId = document.getElementById('entrepriseId').value;
+            const password = document.getElementById('password').value;
+
+            // Liste des identifiants et mots de passe
+            const entreprises = {
+                "Custom Motor": "134378",
+                "DockTease": "143687",
+                "Pearl's": "812628",
+                "LsCustom": "578636",
+                "Bennys": "855848",
+                "LTD Paleto": "579585",
+                "Esthétique GS": "857785",
+                "Noodle": "991693",
+                "FlyWheels": "423975",
+                "Burger Shot": "765436",
+                "Rex Diner": "177652",
+                "UwU Café": "437999",
+                "LD Organics": "455495",
+                "Tatoo Vinewood": "359864",
+                "Hen House": "823222",
+                "Life": "233879"
+            };
+
+            if (entreprises[entrepriseId] === password) {
+                // Rediriger vers la page de commande avec l'entreprise en paramètre
+                window.location.href = `commande.html?entreprise=${encodeURIComponent(entrepriseId)}`;
+            } else {
+                alert("Identifiant ou mot de passe incorrect !");
+            }
+        });
+    </script>
+</body>
+</html>
